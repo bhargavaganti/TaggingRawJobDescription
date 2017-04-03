@@ -15,6 +15,14 @@
  */
 package org.deb;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.opencsv.CSVReader;
+
 /**
  * @author debmalyajash
  *
@@ -23,10 +31,56 @@ public class TagRawDescription {
 
 	/**
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws IOException {
+		if (args.length > 1){
+			train(args[0]);
+			tag(args[1]);
+		} else {
+			System.err.println("Usage : java org.deb.TagRawDescription <trainging file> <test file>");
+		}
+		
 
+	}
+
+	/**
+	 * @param testFileName
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
+	 */
+	public static void tag(String testFileName) throws IOException {
+		try (CSVReader reader = new CSVReader(new FileReader(testFileName), '\t')){
+			List<String[]> allLines = new ArrayList<>();
+			String[] eachLine = reader.readNext();
+			while (eachLine != null){
+				
+				System.out.println("Line :" + eachLine[0]);
+				System.out.println("Tag :" + eachLine[1]);
+				allLines.add(eachLine);
+				eachLine = reader.readNext();
+			}
+		
+			System.out.println("Total number of lines to tag:" + allLines.size());
+		} finally {
+			
+		}
+		
+	}
+
+	/**
+	 * @param trainingFileName
+	 * @throws IOException 
+	 */
+	public static void train(String trainingFileName) throws IOException {
+		try (CSVReader reader = new CSVReader(new FileReader(trainingFileName), '\t')){
+			List<String[]> allLines = reader.readAll();
+			System.out.println("Total number of lines to train:" + allLines.size());
+		} finally {
+			
+		}
+		
+		
 	}
 
 }

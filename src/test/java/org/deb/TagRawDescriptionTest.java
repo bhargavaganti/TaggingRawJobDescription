@@ -18,6 +18,7 @@ package org.deb;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -69,7 +70,7 @@ public class TagRawDescriptionTest {
 	public final void testGetKeyWord() {
 		try {
 			TagRawDescription trd = new TagRawDescription();
-			trd.getKeyWords(
+			List<String> keyWordList = trd.getKeyWords(
 					"THE COMPANY    Employer is a midstream service provider to the onshore Oil and Gas markets.  "
 							+ "It is a a fast growing filtration technology company providing environmentally sound solutions "
 							+ "to the E&P’s for water and drilling fluids management and recycling. "
@@ -95,6 +96,8 @@ public class TagRawDescriptionTest {
 							+ " more advanced organization we encourage you to apply.      "
 							+ "Position is located in North Dakota, but sales representative could live as far away as Casper, Wyoming or Billings, Montana. "
 							+ "    Successful candidates must pass a post offer background and drug screen.    EOE ");
+			Assert.assertNotNull(keyWordList);
+			Assert.assertTrue(keyWordList.size() > 1);
 		} catch (Throwable th) {
 			Assert.assertFalse(th.getMessage(), true);
 		}
